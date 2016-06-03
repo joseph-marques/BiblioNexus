@@ -8,6 +8,7 @@ class Author(models.Model):
 class Series(models.Model):
     title = models.CharField(max_length=512)
     authors = models.ManyToManyField(Author)
+    books = []
 
 
 class Book(models.Model):
