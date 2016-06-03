@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    {% load staticfiles %}
+    <script src="{% static "browse/js/jquery.min.js" %}"></script>
+    <!-- begin bootstrap links -->
+    <link rel="stylesheet" href="{% static "browse/bootstrap/css/bootstrap.min.css" %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+    <script src="{% static "browse/bootstrap/js/bootstrap.min.js" %}"></script>
+    <!-- end bootstrap links -->
+</head>
+<body>
+<div id="booklist">
+    {% if books_to_display %}
+        <ul>
+            {% for book in books_to_display %}
+                <li><a href="/read/{{ book.id }}">{{ book.title }} by {{ book.authors.all | join:" and " }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
+</body>
+</html>
