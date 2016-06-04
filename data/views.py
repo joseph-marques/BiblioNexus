@@ -10,7 +10,7 @@ def add(request):
 
 
 def edit(request, book_id):
-    book=get_object_or_404(Book, pk=book_id)
+    book = get_object_or_404(Book, pk=book_id)
     return render(request, 'data/edit.html', {'book': book})
 
 
