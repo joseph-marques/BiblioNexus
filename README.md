@@ -25,3 +25,9 @@
 * Bootstrap
 * epup.js
 
+## Created by
+* Joseph Marques
+* Ben Schlur
+* Gordon Phoon
+
+
