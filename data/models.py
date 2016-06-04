@@ -22,6 +22,7 @@ class Book(models.Model):
     seriesSpot = models.IntegerField(default=0) #describes which book in the series this is, if 0, no series
     publish_date = models.DateField() #states the date that the book was published
 
+
     def __str__(self):
         return self.title + " by "+" and ".join(str(x) for x in self.authors.all())
 
@@ -37,3 +38,7 @@ class BookForm(ModelForm):
             'seriesSpot': TextInput(attrs={'class': 'form-control col-md-10'}),
         }
 
+class Shelf(modles.Model):
+    title = models.CharField(max_length=512)
+    books = moels.ManyToManyField(Book)
+    creation_date = models.DateField()
