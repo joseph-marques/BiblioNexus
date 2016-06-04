@@ -12,6 +12,6 @@ def index(request):
 #literally copied off of starting tutorial.  trying to get list of books by title show
 def sort_by_book(request):
     book_list = Book.objects.filter(Book.title)
-    template = loader.get_template('templates/index.html')
+    template = loader.get_template('templates/data/index.html')
     context = {'book': Book.title}
     return render(request, 'data/sort_by_book.html', context)
