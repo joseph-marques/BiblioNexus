@@ -20,8 +20,8 @@
     </script>
     <!-- end bootstrap links -->
     <style>
-        a.list-group-item {
-            font-size: large;
+        .large {
+            font-size: x-large;
         }
 
         .form-control-feedback {
@@ -29,7 +29,16 @@
             margin: 0;
             padding: 0;
         }
+        span.glyphicon, a{
+            top:50%
+            vertical-align: middle;
+        }
+        .row-content:hover{
+            background-color: #AAAAAA;
+        }
     </style>
+    <link rel="stylesheet" href="" id="css-theme"/>
+    <script src="" id="js-theme"></script>
 </head>
 <body>
 <div id="header" class="navbar navbar-inverse">
@@ -60,7 +69,10 @@
 </div>
 <div class="list-group" id="booklist">
     {% for book in books_to_display %}
-        <a class="list-group-item" href="{% url 'read:index' book.id %}">{{ book.title }} by {{ book.authors.all | join:" and " }}</a>
+        <div class="list-group-item">
+        <div class="row-content" style="height: 100%;" onclick="window.location='{% url 'read:index' book.id %}'"><span class="large">{{ book.title }}
+            by {{ book.authors.all | join:" and " }} </span> <a class="large" href="{% url 'data:edit' book.id %}"><span
+                class="glyphicon glyphicon-pencil"></span></a> <a href="{% static "data/books/"%}{{ book.id }}.epub"><span class="glyphicon glyphicon-download"></span></a></div></div>
     {% endfor %}
 </div>
 <script>

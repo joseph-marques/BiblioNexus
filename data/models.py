@@ -1,5 +1,5 @@
+from django.forms import *
 from django.db import models
-
 
 class Author(models.Model):
     name = models.CharField(max_length=128) #The name of the author
@@ -25,3 +25,13 @@ class Book(models.Model):
     def __str__(self):
         return self.title + " by "+" and ".join(str(x) for x in self.authors.all())
 
+class BookForm(ModelForm):
+    class Meta:
+        model = Book
+        fields = ['authors', 'title', 'series', 'seriesSpot', 'publish_date']
+        widgets = {
+            'title': TextInput(attrs={'class': 'form-control col-md-10'}),
+            'publish_date': TextInput(attrs={'class': 'form-control com-md-10'}),
+            'title': TextInput(attrs={'class': 'form-control'}),
+            'title': TextInput(attrs={'class': 'form-control'}),
+        }

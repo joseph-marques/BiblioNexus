@@ -1,12 +1,25 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Series, Book, Author
+from .models import Series, Book, Author, BookForm
 from django.http import HttpResponse
 from django.template import loader
+from django.forms import modelformset_factory
 
 
 # Create your views here.
 def add(request):
-    return render(request, 'data/add.html')
+    BookFormSet = modelformset_factory(Book, fields=('authors', 'title', 'series', 'seriesSpot', 'publish_date'))
+    if request.method == 'POST':
+        formset = BookFormSet(request.POST, request.FILES)
+        if formset.is_valid():
+            formset.save()
+            return render(request, 'data/edit.html', {'formset': formset})
+            # do something.
+    else:
+        #formset = BookFormSet(queryset=Book.objects.none())
+        formset = BookForm()
+        return render(request, 'data/add.html', {'formset': formset})
+
+
 
 
 def edit(request, book_id):
