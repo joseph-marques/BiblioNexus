@@ -16,7 +16,7 @@ def add(request):
             next = request.GET.get('from', None)
             if next:
                 return redirect(next)
-        return HttpResponse("<H1>INVALID</H1>")
+        return HttpResponse("<H1>INVALID</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
             # do something.
     else:
         #formset = BookFormSet(queryset=Book.objects.none())
@@ -32,7 +32,7 @@ def author(request):
             next = request.GET.get('from', None)
             if next:
                 return redirect(next)
-        return HttpResponse("<H1>INVALID</H1>")
+        return HttpResponse("<H1>INVALID</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
     else:
         formset = AuthorFormSet(queryset=Author.objects.none())
     return render(request, 'data/author.html', {'formset': formset})
@@ -46,7 +46,7 @@ def series(request):
             next = request.GET.get('from', None)
             if next:
                 return redirect(next)
-        return HttpResponse("<H1>INVALID</H1>")
+        return HttpResponse("<H1>INVALID</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
     else:
         formset = SeriesFormSet(queryset=Series.objects.none())
     return render(request, 'data/Series.html', {'formset': formset})
