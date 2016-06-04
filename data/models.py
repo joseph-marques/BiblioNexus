@@ -22,6 +22,10 @@ class Book(models.Model):
     seriesSpot = models.IntegerField(default=0) #describes which book in the series this is, if 0, no series
     publish_date = models.DateField() #states the date that the book was published
 
+class BookMark(models.Model):
+    books = models.ManyToManyField(Book)
+    page_place = models.IntegerField(selfdefault=0)
+
 
     def __str__(self):
         return self.title + " by "+" and ".join(str(x) for x in self.authors.all())
