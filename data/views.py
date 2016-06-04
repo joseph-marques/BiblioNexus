@@ -1,4 +1,5 @@
-from django.shortcuts import render, get_object_or_404
+from django.forms import TextInput
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Series, Book, Author, BookForm
 from django.http import HttpResponse
 from django.template import loader
@@ -12,14 +13,43 @@ def add(request):
         formset = BookFormSet(request.POST, request.FILES)
         if formset.is_valid():
             formset.save()
-            return render(request, 'data/edit.html', {'formset': formset})
+            next = request.GET.get('from', None)
+            if next:
+                return redirect(next)
+        return HttpResponse("<H1>INVALID</H1>")
             # do something.
     else:
         #formset = BookFormSet(queryset=Book.objects.none())
         formset = BookForm()
-        return render(request, 'data/add.html', {'formset': formset})
+    return render(request, 'data/add.html', {'formset': formset})
 
+def author(request):
+    AuthorFormSet = modelformset_factory(Author, fields=('name',), widgets={'name': TextInput(attrs={'class': 'form-control com-md-10',  'required' : True}),})
+    if request.method == 'POST':
+        formset = AuthorFormSet(request.POST, request.FILES)
+        if formset.is_valid():
+            formset.save()
+            next = request.GET.get('from', None)
+            if next:
+                return redirect(next)
+        return HttpResponse("<H1>INVALID</H1>")
+    else:
+        formset = AuthorFormSet(queryset=Author.objects.none())
+    return render(request, 'data/author.html', {'formset': formset})
 
+def series(request):
+    SeriesFormSet = modelformset_factory(Series, fields=('title',), widgets={'title': TextInput(attrs={'class': 'form-control com-md-10',  'required' : True}),})
+    if request.method == 'POST':
+        formset = SeriesFormSet(request.POST, request.FILES)
+        if formset.is_valid():
+            formset.save()
+            next = request.GET.get('from', None)
+            if next:
+                return redirect(next)
+        return HttpResponse("<H1>INVALID</H1>")
+    else:
+        formset = SeriesFormSet(queryset=Series.objects.none())
+    return render(request, 'data/Series.html', {'formset': formset})
 
 
 def edit(request, book_id):

@@ -2,13 +2,13 @@ from django.forms import *
 from django.db import models
 
 class Author(models.Model):
-    name = models.CharField(max_length=128) #The name of the author
+    name = models.CharField(max_length=128, unique=True) #The name of the author
 
     def __str__(self):
         return self.name
 
 class Series(models.Model):
-    title = models.CharField(max_length=512) #the title of the series
+    title = models.CharField(max_length=512, unique=True) #the title of the series
     authors = models.ManyToManyField(Author) #the authors that participated in the making of the series
 
     def __str__(self):
@@ -31,7 +31,9 @@ class BookForm(ModelForm):
         fields = ['authors', 'title', 'series', 'seriesSpot', 'publish_date']
         widgets = {
             'title': TextInput(attrs={'class': 'form-control col-md-10'}),
-            'publish_date': TextInput(attrs={'class': 'form-control com-md-10'}),
-            'title': TextInput(attrs={'class': 'form-control'}),
-            'title': TextInput(attrs={'class': 'form-control'}),
+            'publish_date': TextInput(attrs={'class': 'form-control com-md-10',  'required' : False}),
+            'authors': SelectMultiple(attrs={'class': 'form-control col-md-10'}),
+            'series': Select(attrs={'class': 'form-control col-md-10'}),
+            'seriesSpot': TextInput(attrs={'class': 'form-control col-md-10'}),
         }
+
