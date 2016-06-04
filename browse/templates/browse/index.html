@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta charset="UTF-8">
     <title></title>
     {% load staticfiles %}
@@ -10,16 +10,20 @@
     <link rel="stylesheet" href="{% static "browse/bootstrap/css/bootstrap.min.css" %}">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
     <script src="{% static "browse/bootstrap/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "browse/js/bootstrap-list-filter.min.js" %}"></script>
     <!-- end bootstrap links -->
 </head>
 <body>
 <div id="header">
-
+    <input id="search" class="form-control" type="search" placeholder="Search..." />
 </div>
 <div class="list-group" id="booklist">
-            {% for book in books_to_display %}
-                <a class="list-group-item" href="/read/{{ book.id }}">{{ book.title }} by {{ book.authors.all | join:" and " }}</a>
-            {% endfor %}
+    {% for book in books_to_display %}
+        <a class="list-group-item" href="/read/{{ book.id }}">{{ book.title }} by {{ book.authors.all | join:" and " }}</a>
+    {% endfor %}
 </div>
+<script>
+    $('#booklist').btsListFilter('#search', {initial: false});
+</script>
 </body>
 </html>
