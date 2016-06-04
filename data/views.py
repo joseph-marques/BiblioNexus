@@ -1,4 +1,4 @@
-from django.forms import TextInput
+from django.forms import TextInput, SelectMultiple
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Series, Book, Author, BookForm
 from django.http import HttpResponse
@@ -8,9 +8,9 @@ from django.forms import modelformset_factory
 
 # Create your views here.
 def add(request):
-    BookFormSet = modelformset_factory(Book, fields=('authors', 'title', 'series', 'seriesSpot', 'publish_date'))
+    bookFormSet = modelformset_factory(Book, fields=('authors', 'title', 'series', 'seriesSpot', 'publish_date'))
     if request.method == 'POST':
-        formset = BookFormSet(request.POST, request.FILES)
+        formset = bookFormSet(request.POST, request.FILES)
         if formset.is_valid():
             formset.save()
             next = request.GET.get('from', None)
@@ -24,9 +24,9 @@ def add(request):
     return render(request, 'data/add.html', {'formset': formset})
 
 def author(request):
-    AuthorFormSet = modelformset_factory(Author, fields=('name',), widgets={'name': TextInput(attrs={'class': 'form-control com-md-10',  'required' : True}),})
+    authorFormSet = modelformset_factory(Author, fields=('name',), widgets={'name': TextInput(attrs={'class': 'form-control com-md-10',  'required' : True}),})
     if request.method == 'POST':
-        formset = AuthorFormSet(request.POST, request.FILES)
+        formset = authorFormSet(request.POST, request.FILES)
         if formset.is_valid():
             formset.save()
             next = request.GET.get('from', None)
@@ -34,13 +34,13 @@ def author(request):
                 return redirect(next)
         return HttpResponse("<H1>INVALID</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
     else:
-        formset = AuthorFormSet(queryset=Author.objects.none())
+        formset = authorFormSet(queryset=Author.objects.none())
     return render(request, 'data/author.html', {'formset': formset})
 
 def series(request):
-    SeriesFormSet = modelformset_factory(Series, fields=('title',), widgets={'title': TextInput(attrs={'class': 'form-control com-md-10',  'required' : True}),})
+    seriesFormSet = modelformset_factory(Series, fields=('title', 'authors',), widgets={'title': TextInput(attrs={'class': 'form-control com-md-10',  'required': True}), 'authors': SelectMultiple(attrs={'class': 'form-control col-md-10'}), })
     if request.method == 'POST':
-        formset = SeriesFormSet(request.POST, request.FILES)
+        formset = seriesFormSet(request.POST, request.FILES)
         if formset.is_valid():
             formset.save()
             next = request.GET.get('from', None)
@@ -48,8 +48,8 @@ def series(request):
                 return redirect(next)
         return HttpResponse("<H1>INVALID</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
     else:
-        formset = SeriesFormSet(queryset=Series.objects.none())
-    return render(request, 'data/Series.html', {'formset': formset})
+        formset = seriesFormSet(queryset=Series.objects.none())
+    return render(request, 'data/series.html', {'formset': formset})
 
 
 def edit(request, book_id):

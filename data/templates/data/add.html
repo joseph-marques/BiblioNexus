@@ -55,7 +55,8 @@
     </div>
 </div>
 <div id="form">
-    <form class="form-horizontal">
+    <form action="" class="form-horizontal">
+        {% csrf_token %}
         <fieldset>
             {{ formset.management_form }}
             <div class="form-group">
@@ -71,7 +72,7 @@
                     </div>
             </div>
             <div class="form-group">
-            <label for="id_series" class="col-md-1 control-label large"><p>Series</p></label>
+            <label for="id_series" class="col-md-1 control-label large"><p>Series</p>  <span onclick="window.location='{% url 'data:series' %}?from={{ request.path|urlencode }}'" class="glyphicon glyphicon-plus"></span></label>
                 <div class="col-md-10">
             {{ formset.series }}
                     </div>
@@ -88,7 +89,6 @@
             {{ formset.publish_date }}
                     </div>
             </div>
-            <!--{{ formset }}-->
         </fieldset>
     </form>
 </div>
