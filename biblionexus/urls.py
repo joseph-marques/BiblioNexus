@@ -18,6 +18,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^read/(?P<book_id>[0-9]+)', include('read.urls')),
+    url(r'^data/', include('data.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^', include('browse.urls')),
 ]
