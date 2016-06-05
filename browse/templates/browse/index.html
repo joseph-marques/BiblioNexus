@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Browse Books</title>
     {% load staticfiles %}
     <script src="{% static "browse/js/jquery.min.js" %}"></script>
     <script src="{% static "read/js/js.cookie.js" %}"></script>
@@ -72,7 +72,7 @@
     {% for book in books_to_display %}
         <div class="list-group-item">
         <div class="row-content" style="height: 100%;" onclick="window.location='{% url 'read:index' book.id %}'"><span class="large">{{ book.title }}
-            by {{ book.authors.all | join:" and " }} </span> <a class="large" href="{% url 'data:edit' book.id %}"><span
+            by {{ book.authors.all | join:" and " }} {% if book.seriesSpot %}(Book {{ book.seriesSpot }} of {{ book.series }}) {% endif %}</span> <a class="large" href="{% url 'data:edit' book.id %}"><span
                 class="glyphicon glyphicon-pencil"></span></a> <a class="large" href="{% static "data/books/"%}{{ book.filename }}"><span class="glyphicon glyphicon-download"></span></a></div></div>
     {% endfor %}
 </div>
