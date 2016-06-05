@@ -30,9 +30,6 @@ class Book(models.Model):
     def filename(self):
         return os.path.basename(self.upload.name)
 
-
-
-
     def __str__(self):
         return self.title + " by "+" and ".join(str(x) for x in self.authors.all())
 
@@ -49,3 +46,11 @@ class BookForm(ModelForm):
         }
 
 
+class BookMark(models.Model):
+    books = models.ManyToManyField(Book)
+    page_place = models.IntegerField(selfdefault=0)
+
+class Shelf(modles.Model):
+    title = models.CharField(max_length=512)
+    books = moels.ManyToManyField(Book)
+    creation_date = models.DateField()
