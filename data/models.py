@@ -36,21 +36,22 @@ class Book(models.Model):
 class BookForm(ModelForm):
     class Meta:
         model = Book
-        fields = ['authors', 'title', 'series', 'seriesSpot', 'publish_date', 'upload']
+        fields = ['authors', 'title', 'series', 'seriesSpot', 'publish_date', 'upload', 'id']
         widgets = {
             'title': TextInput(attrs={'class': 'form-control col-md-10'}),
             'publish_date': TextInput(attrs={'class': 'form-control com-md-10',  'required' : False}),
             'authors': SelectMultiple(attrs={'class': 'form-control col-md-10'}),
             'series': Select(attrs={'class': 'form-control col-md-10'}),
             'seriesSpot': TextInput(attrs={'class': 'form-control col-md-10'}),
+            'id': TextInput(attrs={'required': False, 'readonly': True, 'type': 'hidden'}),
         }
 
 
 class BookMark(models.Model):
     books = models.ManyToManyField(Book)
-    page_place = models.IntegerField(selfdefault=0)
+    page_place = models.IntegerField(default=0)
 
-class Shelf(modles.Model):
+class Shelf(models.Model):
     title = models.CharField(max_length=512)
-    books = moels.ManyToManyField(Book)
+    books = models.ManyToManyField(Book)
     creation_date = models.DateField()

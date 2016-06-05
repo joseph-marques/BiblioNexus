@@ -20,7 +20,7 @@ def add(request):
                 return redirect(next)
             else:
                 return redirect("/")
-        return HttpResponse("<H1>INVALID DATA, PLEASE TRY AGAIN./H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
+        return HttpResponse("<H1>INVALID DATA, PLEASE TRY AGAIN.</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
     else:
         form = BookForm()
     return render(request, 'data/add.html', {'formset': form, })
@@ -36,7 +36,7 @@ def author(request):
                 return redirect(next)
             else:
                 return redirect("/")
-        return HttpResponse("<H1>NVALID DATA, PLEASE TRY AGAIN.</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
+        return HttpResponse("<H1>INVALID DATA, PLEASE TRY AGAIN.</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
     else:
         formset = authorFormSet(queryset=Author.objects.none())
     return render(request, 'data/author.html', {'formset': formset})
@@ -52,7 +52,7 @@ def series(request):
                 return redirect(next)
             else:
                 return redirect("/")
-        return HttpResponse("<H1>NVALID DATA, PLEASE TRY AGAIN.</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
+        return HttpResponse("<H1>INVALID DATA, PLEASE TRY AGAIN.</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
     else:
         formset = seriesFormSet(queryset=Series.objects.none())
     return render(request, 'data/series.html', {'formset': formset})
@@ -60,7 +60,8 @@ def series(request):
 
 def edit(request, book_id):
     if request.method == 'POST':
-        form = BookForm(request.POST, request.FILES)
+        data=get_object_or_404(Book, id=book_id)
+        form = BookForm(request.POST, request.FILES, instance=data)
         if form.is_valid():
             obj = form.save()
             next = request.GET.get('from', None)
@@ -68,7 +69,7 @@ def edit(request, book_id):
                 return redirect(next)
             else:
                 return redirect("/")
-        return HttpResponse("<H1>INVALID DATA, PLEASE TRY AGAIN./H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
+        return HttpResponse("<H1>INVALID DATA, PLEASE TRY AGAIN.</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
     else:
         data=get_object_or_404(Book, id=book_id)
         form=BookForm(instance=data)

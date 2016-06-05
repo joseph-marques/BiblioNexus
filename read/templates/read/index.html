@@ -9,11 +9,29 @@
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
 
-    <link rel="stylesheet" href="{% static "read/css/normalize.css" %}">
-    <link rel="stylesheet" href="{% static "read/css/main.css" %}">
-    <link rel="stylesheet" href="{% static "read/css/popup.css" %}">
+    <script src="{% static "read/js/js.cookie.js" %}"></script>
 
+    <link id="normalize-style" rel="stylesheet" href="{% static "read/css/normalize.css" %}">
+    <link id="main-style" rel="stylesheet" href="{% static "read/css/main.css" %}">
+    <link id="popup-style" rel="stylesheet" href="{% static "read/css/popup.css" %}">
     <script src="{% static "read/js/libs/jquery.min.js" %}"></script>
+<script>
+
+        if(Cookies.get("reader-theme")){
+            var cssLink = document.createElement("link")
+            cssLink.href = "style.css";
+            cssLink.type = "text/css";
+            cssLink.rel = "stylesheet";
+            frames['frame1'].document.body.appendChild(cssLink);
+
+
+            document.write(Cookies.get("reader-theme"))
+        }
+
+</script>
+
+
+
 
     <script src="{% static "read/js/libs/zip.min.js" %}"></script>
 
