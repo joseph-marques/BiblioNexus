@@ -72,7 +72,7 @@
         <div class="list-group-item">
         <div class="row-content" style="height: 100%;" onclick="window.location='{% url 'read:index' book.id %}'"><span class="large">{{ book.title }}
             by {{ book.authors.all | join:" and " }} </span> <a class="large" href="{% url 'data:edit' book.id %}"><span
-                class="glyphicon glyphicon-pencil"></span></a> <a class="large" href="{% static "data/books/"%}{{ book.id }}.epub"><span class="glyphicon glyphicon-download"></span></a></div></div>
+                class="glyphicon glyphicon-pencil"></span></a> <a class="large" href="{% static "data/books/"%}{{ book.filename }}"><span class="glyphicon glyphicon-download"></span></a></div></div>
     {% endfor %}
 </div>
 <script>

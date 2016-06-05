@@ -24,7 +24,7 @@
                 EPUBJS.filePath = "{% static "data/books/" %}";
                 EPUBJS.cssPath = "{% static "read/css/" %}";
                 // fileStorage.filePath = EPUBJS.filePath;
-                window.reader = ePubReader("{% static "data/books/" %}{{ book.id }}.epub");
+                window.reader = ePubReader("{% static "data/books/" %}{{ book.filename }}");
             }
         };
     </script>

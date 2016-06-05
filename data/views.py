@@ -1,27 +1,29 @@
 from django.forms import TextInput, SelectMultiple
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Series, Book, Author, BookForm
+from .models import Series, Book, Author, BookForm, f
 from django.http import HttpResponse
 from django.template import loader
 from django.forms import modelformset_factory
+from django import forms
+from django.core.files import File
+
 
 
 # Create your views here.
 def add(request):
-    bookFormSet = modelformset_factory(Book, fields=('authors', 'title', 'series', 'seriesSpot', 'publish_date'))
     if request.method == 'POST':
-        formset = bookFormSet(request.POST, request.FILES)
-        if formset.is_valid():
-            formset.save()
+        form = BookForm(request.POST, request.FILES)
+        if form.is_valid():
+            obj = form.save()
             next = request.GET.get('from', None)
             if next:
                 return redirect(next)
-        return HttpResponse("<H1>INVALID</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
-            # do something.
+            else:
+                return redirect("/")
+        return HttpResponse("<H1>INVALID DATA, PLEASE TRY AGAIN./H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
     else:
-        #formset = BookFormSet(queryset=Book.objects.none())
-        formset = BookForm()
-    return render(request, 'data/add.html', {'formset': formset})
+        form = BookForm()
+    return render(request, 'data/add.html', {'formset': form, })
 
 def author(request):
     authorFormSet = modelformset_factory(Author, fields=('name',), widgets={'name': TextInput(attrs={'class': 'form-control com-md-10',  'required' : True}),})
@@ -32,7 +34,9 @@ def author(request):
             next = request.GET.get('from', None)
             if next:
                 return redirect(next)
-        return HttpResponse("<H1>INVALID</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
+            else:
+                return redirect("/")
+        return HttpResponse("<H1>NVALID DATA, PLEASE TRY AGAIN.</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
     else:
         formset = authorFormSet(queryset=Author.objects.none())
     return render(request, 'data/author.html', {'formset': formset})
@@ -46,15 +50,30 @@ def series(request):
             next = request.GET.get('from', None)
             if next:
                 return redirect(next)
-        return HttpResponse("<H1>INVALID</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
+            else:
+                return redirect("/")
+        return HttpResponse("<H1>NVALID DATA, PLEASE TRY AGAIN.</H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
     else:
         formset = seriesFormSet(queryset=Series.objects.none())
     return render(request, 'data/series.html', {'formset': formset})
 
 
 def edit(request, book_id):
-    book = get_object_or_404(Book, pk=book_id)
-    return render(request, 'data/edit.html', {'book': book})
+    if request.method == 'POST':
+        form = BookForm(request.POST, request.FILES)
+        if form.is_valid():
+            obj = form.save()
+            next = request.GET.get('from', None)
+            if next:
+                return redirect(next)
+            else:
+                return redirect("/")
+        return HttpResponse("<H1>INVALID DATA, PLEASE TRY AGAIN./H1><br/><FORM><INPUT Type='button' VALUE='Back' onClick='history.go(-1);return true;'></FORM>")
+    else:
+        data=get_object_or_404(Book, id=book_id)
+        form=BookForm(instance=data)
+
+    return render(request, 'data/add.html', {'formset': form, })
 
 
 
